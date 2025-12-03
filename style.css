@@ -70,6 +70,12 @@ header {
     z-index: 1000;
 }
 
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
 /* clickable logo container */
 .logo-link {
     display: flex;
@@ -98,6 +104,12 @@ header {
     color: var(--text-light);
 }
 
+/* Desktop nav */
+nav {
+    display: flex;
+    align-items: center;
+}
+
 nav a {
     margin-left: 20px;
     color: var(--text-light);
@@ -109,6 +121,77 @@ nav a:hover,
 nav a.active {
     color: var(--accent);
     font-weight: 600;
+}
+
+/* Header Contact button (mobile only by default) */
+.header-contact-btn {
+    display: none;
+    /* shown on mobile */
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--accent);
+    font-size: 0.9rem;
+    font-weight: 500;
+    background: transparent;
+    color: var(--accent);
+    white-space: nowrap;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.header-contact-btn:hover {
+    background: #f5f5f5;
+}
+
+/* Hamburger button */
+.menu-toggle {
+    display: none;
+    /* shown on mobile */
+    width: 28px;
+    height: 22px;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+}
+
+.menu-toggle span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--text-main);
+    border-radius: 2px;
+    transition: transform 0.3s ease, top 0.3s ease, opacity 0.3s ease;
+}
+
+.menu-toggle span:nth-child(1) {
+    top: 0;
+}
+
+.menu-toggle span:nth-child(2) {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.menu-toggle span:nth-child(3) {
+    top: 100%;
+    transform: translateY(-100%);
+}
+
+/* Hamburger open state (X) */
+.menu-toggle.open span:nth-child(1) {
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.menu-toggle.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.open span:nth-child(3) {
+    top: 50%;
+    transform: translateY(-50%) rotate(-45deg);
 }
 
 /* --- Main Layouts --- */
@@ -401,10 +484,27 @@ footer {
 
 /* --- Mobile Responsiveness --- */
 @media (max-width: 768px) {
+
+    /* Hide logo text so only the image shows top-left */
+    .logo-text {
+        display: none;
+    }
+
+    /* Home layout stacks and reorder so profile card appears first */
     .home-container {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
         text-align: center;
         gap: 2rem;
+    }
+
+    .profile-card-container {
+        order: -1;
+        /* show picture card above text */
+    }
+
+    .intro-text {
+        order: 0;
     }
 
     .intro-text h1 {
@@ -418,15 +518,6 @@ footer {
     .project-item {
         grid-template-columns: 1fr;
         gap: 1.5rem;
-    }
-
-    header {
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    nav a {
-        margin: 0 10px;
     }
 
     .about-item {
@@ -445,6 +536,50 @@ footer {
     .comingsoon-container {
         margin-top: 20%;
     }
+
+    /* Show hamburger + header contact button on mobile */
+    .menu-toggle {
+        display: block;
+    }
+
+    .header-contact-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Mobile nav: hidden by default, slide-down menu when open */
+    nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        border-bottom: 1px solid var(--border-color);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem 5%;
+        display: none;
+    }
+
+    nav.nav-open {
+        display: flex;
+    }
+
+    nav a {
+        margin: 0.5rem 0;
+    }
+
+    /* ALTO mobile: transparent header by default, dark dropdown when open */
+    body.animated-bg nav {
+        background: transparent;
+        border-bottom: none;
+    }
+
+    body.animated-bg nav.nav-open {
+        background: rgba(0, 0, 0, 0.9);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
 }
 
 /* --- ALTO PAGE-SPECIFIC OVERRIDES (DARK THEME HEADER & FOOTER) --- */
@@ -462,8 +597,14 @@ body.animated-bg .thin-text {
     color: rgba(255, 255, 255, 0.7);
 }
 
+/* Make ALTO nav transparent on desktop (no black strip) */
+body.animated-bg nav {
+    background: transparent;
+    border-bottom: none;
+}
+
 body.animated-bg nav a {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.85);
 }
 
 body.animated-bg nav a:hover,
@@ -479,4 +620,35 @@ body.animated-bg footer {
 
 body.animated-bg .footer-content a {
     color: #ffffff;
+}
+
+body.animated-bg .menu-toggle span {
+    background: #ffffff;
+}
+
+body.animated-bg .header-contact-btn {
+    border-color: #ffffff;
+    color: #ffffff;
+}
+
+body.animated-bg .header-contact-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* --- ALTO Page Back Button --- */
+.alto-back-btn {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 12px 28px;
+    background: #ffffff;
+    color: #000000;
+    font-weight: 600;
+    border-radius: 6px;
+    border: none;
+    text-decoration: none;
+    transition: 0.25s ease-in-out;
+}
+
+.alto-back-btn:hover {
+    background: #e6e6e6;
 }

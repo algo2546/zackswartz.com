@@ -12,12 +12,22 @@
 <body>
 
     <header>
-        <div class="logo-container">
-            <a href="index.html" class="logo-link">
-                <img src="photos/Logo.jpg" alt="Logo" class="site-logo">
-                <span class="logo-text">Zack Swartz // <span class="thin-text">Algorithmic Trader</span></span>
-            </a>
+        <div class="header-left">
+            <div class="logo-container">
+                <a href="index.html" class="logo-link">
+                    <img src="photos/Logo.jpg" alt="Logo" class="site-logo">
+                    <span class="logo-text">Zack Swartz // <span class="thin-text">Algorithmic Trader</span></span>
+                </a>
+            </div>
+
+            <button class="menu-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
+
+        <a href="contact.html" class="header-contact-btn">Contact</a>
 
         <nav>
             <a href="index.html" class="active">Home</a>
@@ -79,6 +89,20 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const nav = document.querySelector('nav');
+
+            if (menuToggle && nav) {
+                menuToggle.addEventListener('click', function () {
+                    nav.classList.toggle('nav-open');
+                    this.classList.toggle('open');
+                });
+            }
+        });
+    </script>
 
 </body>
 
